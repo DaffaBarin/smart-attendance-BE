@@ -12,14 +12,28 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * Response base object
+ */
 public class Response<T> {
 
+    /**
+     * HTTP status
+     */
     private Integer status; // Status code (200, 400, 404)
 
+    /**
+     * Return Data
+     */
     private T data;
-
+    /**
+     * Map for errors
+     */
     private Map<String, List<String>> errors;
 
+    /**
+     * Pagination
+     */
     private Pagination pagination;
 
     @Data

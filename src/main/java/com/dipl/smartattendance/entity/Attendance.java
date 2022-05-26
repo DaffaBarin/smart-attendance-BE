@@ -16,6 +16,9 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "attendances")
+/**
+ * Entity for Attendance with table name attendances
+ */
 public class Attendance {
 
     @Id

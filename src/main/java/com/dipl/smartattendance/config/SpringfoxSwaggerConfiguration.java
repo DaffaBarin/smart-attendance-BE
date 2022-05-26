@@ -17,9 +17,15 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 @Configuration
 @EnableSwagger2
+/**
+ * Springfox configuration for swagger ui
+ */
 public class SpringfoxSwaggerConfiguration implements WebMvcConfigurer {
 
     @Bean
+    /**
+     * Bean for SWAGGER_2 initialization
+     */
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
@@ -29,6 +35,9 @@ public class SpringfoxSwaggerConfiguration implements WebMvcConfigurer {
                 .useDefaultResponseMessages(false);
     }
 
+    /**
+     * resource handler
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")
@@ -37,6 +46,9 @@ public class SpringfoxSwaggerConfiguration implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
+    /**
+     * Api Info metadata
+     */
     private ApiInfo buildApiInfo () {
         return new ApiInfoBuilder()
                 .title("Smart Attendance API Documentation")

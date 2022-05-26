@@ -13,6 +13,9 @@ import java.time.LocalTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * Response object for attendance
+ */
 public class AttendanceResponse {
     String id;
     String longitude;

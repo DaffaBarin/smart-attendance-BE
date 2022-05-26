@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +22,9 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/api/attendances")
+/**
+ * Controller for Attendance
+ */
 public class AttendanceController {
 
     @Autowired
@@ -54,12 +56,18 @@ public class AttendanceController {
                 .data(toResponse(attendances))
                 .build();
     }
+    /**
+     * Attendance entity to AttendanceResponse transformation
+     */
     private AttendanceResponse toResponse(Attendance attendance) {
         AttendanceResponse attendanceResponse = AttendanceResponse.builder().build();
         BeanUtils.copyProperties(attendance,attendanceResponse);
         return attendanceResponse;
     }
 
+    /**
+     * List of Attendance entity to List of AttendanceResponse transformation
+     */
     private List<AttendanceResponse> toResponse(List<Attendance> attendances) {
         List<AttendanceResponse> attendanceResponses = Collections.emptyList();
         AttendanceResponse attendanceResponse = AttendanceResponse.builder().build();

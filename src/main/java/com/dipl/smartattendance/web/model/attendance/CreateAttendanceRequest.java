@@ -13,6 +13,9 @@ import java.time.LocalTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * Request object for attendance creation
+ */
 public class CreateAttendanceRequest {
     String id;
     String longitude;

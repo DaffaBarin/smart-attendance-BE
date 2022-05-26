@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service interface for Attendance
+ */
 public interface AttendanceService {
     List<Attendance> findByUserId(String userId);
     Attendance create(CreateAttendanceRequest request);

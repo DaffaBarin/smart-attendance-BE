@@ -15,20 +15,31 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+/**
+ * Service implementation for Attendance
+ */
 public class AttendanceServiceImpl implements AttendanceService {
 
+    /**
+     * Autowiring repository
+     */
     private final AttendanceRepository attendanceRepository;
 
     private final UserRepository userRepository;
 
     private final ScheduleRepository scheduleRepository;
 
-
+    /**
+     * This method returns list of attendance by user id
+     */
     @Override
     public List<Attendance> findByUserId(String userId) {
         return attendanceRepository.findByUserId(userId);
     }
 
+    /**
+     * This method create attendance by request
+     */
     @Override
     public Attendance create(CreateAttendanceRequest request) {
         User user = userRepository.getById(request.getUserId());

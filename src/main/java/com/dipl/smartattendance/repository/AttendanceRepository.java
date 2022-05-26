@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for table name attendances
+ */
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance,String> {
     List<Attendance> findByUserId(String userId);

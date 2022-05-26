@@ -14,6 +14,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "schedules")
+/**
+ * Entity for Schedule with table name schedules
+ */
 public class Schedule {
 
     @Id
