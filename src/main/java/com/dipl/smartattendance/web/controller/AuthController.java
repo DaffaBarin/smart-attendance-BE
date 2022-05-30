@@ -24,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @Api
 @Validated
@@ -66,9 +67,10 @@ public class AuthController {
                     .data(response)
                     .build();
         } catch (Exception ex){
-            return Response.<UserAuthResponse>builder()
-                    .status(HttpStatus.UNAUTHORIZED.value())
-                    .build();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//            return Response.<UserAuthResponse>builder()
+//                    .status(HttpStatus.UNAUTHORIZED.value())
+//                    .build();
         }
     }
 
@@ -96,9 +98,10 @@ public class AuthController {
                     .data(response)
                     .build();
         } catch (Exception ex){
-            return Response.<AdminAuthResponse>builder()
-                    .status(HttpStatus.UNAUTHORIZED.value())
-                    .build();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//            return Response.<AdminAuthResponse>builder()
+//                    .status(HttpStatus.UNAUTHORIZED.value())
+//                    .build();
         }
     }
 }

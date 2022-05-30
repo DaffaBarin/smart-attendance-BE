@@ -70,8 +70,8 @@ public class AttendanceController {
      */
     private List<AttendanceResponse> toResponse(List<Attendance> attendances) {
         List<AttendanceResponse> attendanceResponses = Collections.emptyList();
-        AttendanceResponse attendanceResponse = AttendanceResponse.builder().build();
         for (Attendance attendance: attendances){
+            AttendanceResponse attendanceResponse = AttendanceResponse.builder().build();
             BeanUtils.copyProperties(attendance,attendanceResponse);
             attendanceResponses.add(attendanceResponse);
         }
