@@ -42,6 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**", "/swagger-ui/**",
             // other public endpoints of your API may be appended to this array
+            "/api/auth/**"
     };
 
     @Override
@@ -51,7 +52,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 //        http.authorizeRequests().antMatchers("/api/user/**");
 
-        http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll().antMatchers("/api/auth/**", "api/user/register").permitAll().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
 
         http.exceptionHandling().authenticationEntryPoint((request, response, ex) -> {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
