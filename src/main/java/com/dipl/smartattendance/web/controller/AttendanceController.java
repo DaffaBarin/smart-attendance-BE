@@ -36,7 +36,8 @@ public class AttendanceController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<AttendanceResponse> create(@RequestBody CreateAttendanceRequest request){
+    public Response<AttendanceResponse> create(@RequestBody CreateAttendanceRequest request, @RequestHeader(value="Authorization") String header){
+        System.out.println(header);
         Attendance attendance = attendanceService.create(request);
         return Response.<AttendanceResponse>builder()
                 .data(toResponse(attendance))
