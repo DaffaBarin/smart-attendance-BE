@@ -47,8 +47,8 @@ public class AttendanceHelper {
         DatabaseReader reader = new DatabaseReader.Builder(database).build();
         Map<String,Double> location = new HashMap();
         if (servletRequest.getRemoteAddr() != null &&
-            servletRequest.getRemoteAddr().startsWith("0:0:") &&
-                servletRequest.getRemoteAddr().equals("127.0.0.1")){
+            !servletRequest.getRemoteAddr().startsWith("0:0:") &&
+                !servletRequest.getRemoteAddr().equals("127.0.0.1")){
             InetAddress ip = InetAddress.getByName(servletRequest.getRemoteAddr());
             try {
                 CityResponse response = reader.city(ip);
