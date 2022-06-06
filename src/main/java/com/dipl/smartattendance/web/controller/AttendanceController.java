@@ -1,12 +1,14 @@
 package com.dipl.smartattendance.web.controller;
 
 import com.dipl.smartattendance.entity.Attendance;
+import com.dipl.smartattendance.helper.JwtHelper;
 import com.dipl.smartattendance.service.AttendanceService;
 import com.dipl.smartattendance.web.model.Response;
 import com.dipl.smartattendance.web.model.attendance.AttendanceResponse;
 import com.dipl.smartattendance.web.model.attendance.CreateAttendanceRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -25,10 +26,14 @@ import java.util.List;
 /**
  * Controller for Attendance
  */
+@Slf4j
 public class AttendanceController {
 
     @Autowired
     AttendanceService attendanceService;
+
+    @Autowired
+    JwtHelper jwtHelper;
 
     @ApiOperation("Create new attendance")
     @PostMapping(
@@ -36,10 +41,10 @@ public class AttendanceController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<AttendanceResponse> create(@RequestBody CreateAttendanceRequest request, @RequestHeader(value="Authorization") String header){
-        System.out.println(header);
+    public Response<AttendanceResponse> create(@RequestBody CreateAttendanceRequest request, @RequestHeader(value="Authorization") String token){
         Attendance attendance = attendanceService.create(request);
         return Response.<AttendanceResponse>builder()
+                .status(HttpStatus.OK.value())
                 .data(toResponse(attendance))
                 .build();
     }

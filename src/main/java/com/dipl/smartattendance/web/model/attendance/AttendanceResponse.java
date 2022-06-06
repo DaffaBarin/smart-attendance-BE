@@ -23,6 +23,4 @@ public class AttendanceResponse {
     LocalTime time;
     String attendanceStatus;
     String note;
-    User user;
-    Schedule schedule;
 }
