@@ -12,7 +12,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleRequest {
+
     private Double longitude;
+
     private Double latitude;
+
     private LocalDate date;
 }
