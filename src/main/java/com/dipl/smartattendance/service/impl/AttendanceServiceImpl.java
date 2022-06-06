@@ -16,10 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -55,21 +57,18 @@ public class AttendanceServiceImpl implements AttendanceService {
      * This method create attendance by request
      */
     @Override
-    public Attendance create(CreateAttendanceRequest request) {
+    public Attendance create(CreateAttendanceRequest request) throws IOException {
         User user = userRepository.getById(request.getUserId());
         Schedule schedule = scheduleRepository.getById(request.getScheduleId());
         Attendance attendance = Attendance.builder().build();
         BeanUtils.copyProperties(request,attendance);
-        String remoteAddr = servletRequest.getHeader("X-FORWARDED-FOR");
-        log.info("ASIAP"+remoteAddr);
-        log.info("ASIAAP"+servletRequest.getRemoteAddr());
-        log.info("lets see"+attendanceHelper.getRequestHeadersInMap(servletRequest));
-        attendance.setLatitude("1");
-        attendance.setLongitude("1");
+        Map<String,Double> location = attendanceHelper.getLocationByIp(servletRequest);
+        attendance.setLatitude(location.get("longitude"));
+        attendance.setLongitude(location.get("latitude"));
+        attendance.setTime(LocalTime.now(ZoneId.ofOffset("GMT", ZoneOffset.ofHours(7))));
+        attendance.setAttendanceStatus(attendanceHelper.getAttendanceStatusByTimeAndLocation(attendance.getTime(),location,schedule));
         attendance.setUser(user);
         attendance.setSchedule(schedule);
-        attendance.setTime(LocalTime.now(ZoneId.ofOffset("GMT", ZoneOffset.ofHours(7))));
-        attendance.setAttendanceStatus(attendanceHelper.getAttendanceStatusByTime(attendance.getTime()));
         return attendanceRepository.save(attendance);
     }
 }

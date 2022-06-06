@@ -28,10 +28,10 @@ public class Attendance {
     String id;
 
     @Column(name = "long", nullable = false)
-    String longitude;
+    Double longitude;
 
     @Column(name = "lat", nullable = false)
-    String latitude;
+    Double latitude;
 
     @Column(name = "attendance_time", columnDefinition = "TIME", nullable = false)
     private LocalTime time;

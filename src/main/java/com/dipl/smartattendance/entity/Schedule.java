@@ -26,10 +26,10 @@ public class Schedule {
     String id;
 
     @Column(name = "long", nullable = false)
-    String longitude;
+    Double longitude;
 
     @Column(name = "lat", nullable = false)
-    String latitude;
+    Double latitude;
 
     @Column(name = "date", columnDefinition = "DATE", nullable = false)
     private LocalDate date;

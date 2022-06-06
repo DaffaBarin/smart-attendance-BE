@@ -18,8 +18,8 @@ import java.time.LocalTime;
  */
 public class AttendanceResponse {
     String id;
-    String longitude;
-    String latitude;
+    Double longitude;
+    Double latitude;
     LocalTime time;
     String attendanceStatus;
     String note;

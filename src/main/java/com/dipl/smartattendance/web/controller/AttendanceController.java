@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class AttendanceController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<AttendanceResponse> create(@RequestBody CreateAttendanceRequest request, @RequestHeader(value="Authorization") String token){
+    public Response<AttendanceResponse> create(@RequestBody CreateAttendanceRequest request, @RequestHeader(value="Authorization") String token) throws IOException {
         Attendance attendance = attendanceService.create(request);
         return Response.<AttendanceResponse>builder()
                 .status(HttpStatus.OK.value())
