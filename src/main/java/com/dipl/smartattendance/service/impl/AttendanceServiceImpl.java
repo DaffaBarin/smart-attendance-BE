@@ -3,7 +3,7 @@ package com.dipl.smartattendance.service.impl;
 import com.dipl.smartattendance.entity.Attendance;
 import com.dipl.smartattendance.entity.Schedule;
 import com.dipl.smartattendance.entity.User;
-import com.dipl.smartattendance.helper.AttendanceHelper;
+import com.dipl.smartattendance.helper.LocationHelper;
 import com.dipl.smartattendance.repository.AttendanceRepository;
 import com.dipl.smartattendance.repository.ScheduleRepository;
 import com.dipl.smartattendance.repository.UserRepository;
@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -41,7 +43,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     private final ScheduleRepository scheduleRepository;
 
-    private final AttendanceHelper attendanceHelper;
+    private final LocationHelper locationHelper;
 
     @Autowired
     private HttpServletRequest servletRequest;
@@ -61,13 +63,14 @@ public class AttendanceServiceImpl implements AttendanceService {
     public Attendance create(CreateAttendanceRequest request) throws IOException {
         User user = userRepository.getById(request.getUserId());
         Schedule schedule = scheduleRepository.getById(request.getScheduleId());
+        if (attendanceRepository.existsByUserAndSchedule(user,schedule)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         Attendance attendance = Attendance.builder().build();
         BeanUtils.copyProperties(request,attendance);
-        Map<String,Double> location = attendanceHelper.getLocationByIp(servletRequest);
+        Map<String,Double> location = locationHelper.getLocationByIp(servletRequest);
         attendance.setLatitude(location.get("longitude"));
         attendance.setLongitude(location.get("latitude"));
         attendance.setTime(LocalTime.now(ZoneId.ofOffset("GMT", ZoneOffset.ofHours(7))));
-        attendance.setAttendanceStatus(attendanceHelper.getAttendanceStatusByTimeAndLocation(attendance.getTime(),location,schedule));
+        attendance.setAttendanceStatus(locationHelper.getAttendanceStatusByTimeAndLocation(attendance.getTime(),location,schedule));
         attendance.setUser(user);
         attendance.setSchedule(schedule);
         return attendanceRepository.save(attendance);

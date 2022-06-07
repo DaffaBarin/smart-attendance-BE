@@ -4,6 +4,7 @@ import com.dipl.smartattendance.entity.Schedule;
 import com.dipl.smartattendance.web.model.schedule.ScheduleRequest;
 import com.dipl.smartattendance.web.model.schedule.UpdateScheduleRequest;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ScheduleService {
@@ -16,4 +17,8 @@ public interface ScheduleService {
     void deleteSchedule(String id);
 
     Schedule updateSchedule(String id, UpdateScheduleRequest request);
+
+    Schedule getTodaySchedule();
+
+    Boolean getUserInArea() throws IOException;
 }

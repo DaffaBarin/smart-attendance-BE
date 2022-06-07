@@ -1,6 +1,5 @@
 package com.dipl.smartattendance.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,7 +39,7 @@ public class Schedule {
     @Column(name = "lat", nullable = false)
     Double latitude;
 
-    @Column(name = "date", columnDefinition = "DATE", nullable = false)
+    @Column(name = "date", columnDefinition = "DATE", nullable = false, unique = true)
     private LocalDate date;
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)

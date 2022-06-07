@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -66,6 +67,32 @@ public class ScheduleController {
         return Response.<List<ScheduleResponse>>builder()
                 .status(HttpStatus.OK.value())
                 .data(toListResponse(schedules))
+                .build();
+    }
+
+    @ApiOperation("Get Today schedule")
+    @GetMapping(
+            path = "/today",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Response<ScheduleResponse> getToday(){
+        Schedule schedules = scheduleService.getTodaySchedule();
+        return Response.<ScheduleResponse>builder()
+                .status(HttpStatus.OK.value())
+                .data(toResponse(schedules))
+                .build();
+    }
+
+    @ApiOperation("Get is inside radius")
+    @GetMapping(
+            path = "/state",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Response<Boolean> getUserState() throws IOException {
+        Boolean state = scheduleService.getUserInArea();
+        return Response.<Boolean>builder()
+                .status(HttpStatus.OK.value())
+                .data(state)
                 .build();
     }
 

@@ -11,12 +11,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.time.LocalTime;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class AttendanceHelper {
+public class LocationHelper {
 
     public String getAttendanceStatusByTimeAndLocation(LocalTime time, Map<String,Double> location, Schedule schedule) {
         Double distance = calculateDistanceInMeters(location.get("latitude"),location.get("longitude"),schedule.getLatitude(),schedule.getLongitude());
@@ -39,6 +38,11 @@ public class AttendanceHelper {
         System.out.println("lets see"+lat1+long1+lat2+long2);
 
         return org.apache.lucene.util.SloppyMath.haversinMeters(lat1, long1, lat2, long2);
+    }
+
+    public Boolean insideRadius(Map<String,Double> location, Schedule schedule){
+        Double distance = calculateDistanceInMeters(location.get("latitude"),location.get("longitude"),schedule.getLatitude(),schedule.getLongitude());
+        return distance < 50000;
     }
 
 
