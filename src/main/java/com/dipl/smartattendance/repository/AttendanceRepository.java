@@ -16,5 +16,7 @@ public interface AttendanceRepository extends JpaRepository<Attendance,String> {
 
     List<Attendance> findAllByUserId(String userId);
 
+    List<Attendance> findAllByUserIdAndAttendanceStatusContaining(String userId, String statusPrefix);
+
     Boolean existsByUserAndSchedule(User user, Schedule schedule);
 }

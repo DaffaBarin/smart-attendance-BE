@@ -8,6 +8,7 @@ import com.dipl.smartattendance.repository.AttendanceRepository;
 import com.dipl.smartattendance.repository.ScheduleRepository;
 import com.dipl.smartattendance.repository.UserRepository;
 import com.dipl.smartattendance.service.AttendanceService;
+import com.dipl.smartattendance.web.model.attendance.AttendancePercentageResponse;
 import com.dipl.smartattendance.web.model.attendance.CreateAttendanceRequest;
 import com.dipl.smartattendance.web.model.attendance.UpdateAttendanceRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -96,5 +99,18 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public void deleteAttendance(String id) {
         attendanceRepository.deleteById(id);
+    }
+
+    @Override
+    public AttendancePercentageResponse getPercentage(String userId) {
+        Calendar cal = Calendar.getInstance();
+        List<Schedule> schedules = scheduleRepository.getScheduleByDateBetween(LocalDate.now().withDayOfMonth(1),LocalDate.now().withDayOfMonth(cal.getActualMaximum(Calendar.DATE)));
+        List<Attendance> presentAttendances = attendanceRepository.findAllByUserIdAndAttendanceStatusContaining(userId,"Hadir");
+        List<Attendance> lateAttendances = attendanceRepository.findAllByUserIdAndAttendanceStatusContaining(userId,"Terlambat");
+        return AttendancePercentageResponse.builder()
+                .latePresent(lateAttendances.size())
+                .present(presentAttendances.size())
+                .notPresent(schedules.size() - presentAttendances.size() + lateAttendances.size())
+                .build();
     }
 }

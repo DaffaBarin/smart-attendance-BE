@@ -4,6 +4,7 @@ import com.dipl.smartattendance.entity.Attendance;
 import com.dipl.smartattendance.helper.JwtHelper;
 import com.dipl.smartattendance.service.AttendanceService;
 import com.dipl.smartattendance.web.model.Response;
+import com.dipl.smartattendance.web.model.attendance.AttendancePercentageResponse;
 import com.dipl.smartattendance.web.model.attendance.AttendanceResponse;
 import com.dipl.smartattendance.web.model.attendance.CreateAttendanceRequest;
 import com.dipl.smartattendance.web.model.attendance.UpdateAttendanceRequest;
@@ -119,11 +120,24 @@ public class AttendanceController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<Boolean> DeleteAttendance(@PathVariable String id) {
+    public Response<Boolean> deleteAttendance(@PathVariable String id) {
         attendanceService.deleteAttendance(id);
         return Response.<Boolean>builder()
                 .status(HttpStatus.OK.value())
                 .data(true)
+                .build();
+    }
+
+    @ApiOperation("Get Attendance Percentage")
+    @GetMapping(
+            path = "/percentage/{userId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Response<AttendancePercentageResponse> getPercentage(@PathVariable String userId) {
+        AttendancePercentageResponse attendancePercentageResponse = attendanceService.getPercentage(userId);
+        return Response.<AttendancePercentageResponse>builder()
+                .status(HttpStatus.OK.value())
+                .data(attendancePercentageResponse)
                 .build();
     }
 

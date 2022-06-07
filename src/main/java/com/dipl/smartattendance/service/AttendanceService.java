@@ -1,6 +1,7 @@
 package com.dipl.smartattendance.service;
 
 import com.dipl.smartattendance.entity.Attendance;
+import com.dipl.smartattendance.web.model.attendance.AttendancePercentageResponse;
 import com.dipl.smartattendance.web.model.attendance.CreateAttendanceRequest;
 import com.dipl.smartattendance.web.model.attendance.UpdateAttendanceRequest;
 import org.springframework.stereotype.Service;
@@ -24,4 +25,6 @@ public interface AttendanceService {
     Attendance findById(String id);
 
     void deleteAttendance(String id);
+
+    AttendancePercentageResponse getPercentage(String userId);
 }
