@@ -9,6 +9,7 @@ import com.dipl.smartattendance.repository.ScheduleRepository;
 import com.dipl.smartattendance.repository.UserRepository;
 import com.dipl.smartattendance.service.AttendanceService;
 import com.dipl.smartattendance.web.model.attendance.CreateAttendanceRequest;
+import com.dipl.smartattendance.web.model.attendance.UpdateAttendanceRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -50,7 +51,7 @@ public class AttendanceServiceImpl implements AttendanceService {
      */
     @Override
     public List<Attendance> findByUserId(String userId) {
-        return attendanceRepository.findByUserId(userId);
+        return attendanceRepository.findAllByUserId(userId);
     }
 
     /**
@@ -70,5 +71,27 @@ public class AttendanceServiceImpl implements AttendanceService {
         attendance.setUser(user);
         attendance.setSchedule(schedule);
         return attendanceRepository.save(attendance);
+    }
+
+    @Override
+    public List<Attendance> getAttendances() {
+        return attendanceRepository.findAll();
+    }
+
+    @Override
+    public Attendance updateAttendance(UpdateAttendanceRequest request) {
+        Attendance attendance = attendanceRepository.getById(request.getId());
+        BeanUtils.copyProperties(request,attendance);
+        return attendanceRepository.save(attendance);
+    }
+
+    @Override
+    public Attendance findById(String id) {
+        return attendanceRepository.getById(id);
+    }
+
+    @Override
+    public void deleteAttendance(String id) {
+        attendanceRepository.deleteById(id);
     }
 }
