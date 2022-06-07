@@ -133,6 +133,7 @@ public class AttendanceController {
     private AttendanceResponse toResponse(Attendance attendance) {
         AttendanceResponse attendanceResponse = AttendanceResponse.builder().build();
         attendanceResponse.setScheduleId(attendance.getSchedule().getId());
+        attendanceResponse.setDate(attendance.getSchedule().getDate());
         attendanceResponse.setUserId(attendance.getUser().getId());
         attendanceResponse.setUserNip(attendance.getUser().getNip());
         BeanUtils.copyProperties(attendance, attendanceResponse);
@@ -145,12 +146,7 @@ public class AttendanceController {
     private List<AttendanceResponse> toListResponse(List<Attendance> attendances) {
         List<AttendanceResponse> attendanceResponses = new ArrayList<>();
         for (Attendance attendance : attendances) {
-            AttendanceResponse attendanceResponse = AttendanceResponse.builder().build();
-            attendanceResponse.setScheduleId(attendance.getSchedule().getId());
-            attendanceResponse.setUserId(attendance.getUser().getId());
-            attendanceResponse.setUserNip(attendance.getUser().getNip());
-            BeanUtils.copyProperties(attendance, attendanceResponse);
-            attendanceResponses.add(attendanceResponse);
+            attendanceResponses.add(toResponse(attendance));
         }
         return attendanceResponses;
     }
