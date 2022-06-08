@@ -13,11 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Api
@@ -35,7 +41,7 @@ public class ScheduleController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<ScheduleResponse> createOne(@RequestBody ScheduleRequest request){
+    public Response<ScheduleResponse> createOne(@RequestBody ScheduleRequest request) {
         Schedule schedule = scheduleService.saveSchedule(request);
         return Response.<ScheduleResponse>builder()
                 .status(HttpStatus.OK.value())
@@ -49,7 +55,7 @@ public class ScheduleController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<List<ScheduleResponse>> createMany(@RequestBody List<ScheduleRequest> request){
+    public Response<List<ScheduleResponse>> createMany(@RequestBody List<ScheduleRequest> request) {
         List<Schedule> schedules = scheduleService.saveManySchedule(request);
         return Response.<List<ScheduleResponse>>builder()
                 .status(HttpStatus.OK.value())
@@ -62,7 +68,7 @@ public class ScheduleController {
             path = "/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<List<ScheduleResponse>> getAll(){
+    public Response<List<ScheduleResponse>> getAll() {
         List<Schedule> schedules = scheduleService.getSchedules();
         return Response.<List<ScheduleResponse>>builder()
                 .status(HttpStatus.OK.value())
@@ -75,7 +81,7 @@ public class ScheduleController {
             path = "/today",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<ScheduleResponse> getToday(){
+    public Response<ScheduleResponse> getToday() {
         Schedule schedules = scheduleService.getTodaySchedule();
         return Response.<ScheduleResponse>builder()
                 .status(HttpStatus.OK.value())
@@ -101,7 +107,7 @@ public class ScheduleController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<Boolean> deleteSchedule(@PathVariable String id){
+    public Response<Boolean> deleteSchedule(@PathVariable String id) {
         scheduleService.deleteSchedule(id);
         return Response.<Boolean>builder()
                 .status(HttpStatus.OK.value())
@@ -116,25 +122,25 @@ public class ScheduleController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Response<ScheduleResponse> updateSchedule(@PathVariable String id,
-            @RequestBody UpdateScheduleRequest request){
-        Schedule schedule = scheduleService.updateSchedule(id,request);
+                                                     @RequestBody UpdateScheduleRequest request) {
+        Schedule schedule = scheduleService.updateSchedule(id, request);
         return Response.<ScheduleResponse>builder()
                 .status(HttpStatus.OK.value())
                 .data(toResponse(schedule))
                 .build();
     }
 
-    ScheduleResponse toResponse(Schedule schedule){
+    ScheduleResponse toResponse(Schedule schedule) {
         ScheduleResponse scheduleResponse = ScheduleResponse.builder().build();
-        BeanUtils.copyProperties(schedule,scheduleResponse);
+        BeanUtils.copyProperties(schedule, scheduleResponse);
         return scheduleResponse;
     }
 
-    List<ScheduleResponse> toListResponse(List<Schedule> schedules){
+    List<ScheduleResponse> toListResponse(List<Schedule> schedules) {
         List<ScheduleResponse> scheduleResponses = new ArrayList<>();
-        for (Schedule schedule: schedules){
+        for (Schedule schedule : schedules) {
             ScheduleResponse scheduleResponse = ScheduleResponse.builder().build();
-            BeanUtils.copyProperties(schedule,scheduleResponse);
+            BeanUtils.copyProperties(schedule, scheduleResponse);
             scheduleResponses.add(scheduleResponse);
         }
         return scheduleResponses;

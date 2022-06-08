@@ -4,7 +4,6 @@ import com.dipl.smartattendance.entity.Attendance;
 import com.dipl.smartattendance.web.model.attendance.AttendancePercentageResponse;
 import com.dipl.smartattendance.web.model.attendance.CreateAttendanceRequest;
 import com.dipl.smartattendance.web.model.attendance.UpdateAttendanceRequest;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;

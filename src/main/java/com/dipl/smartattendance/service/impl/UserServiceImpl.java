@@ -5,12 +5,9 @@ import com.dipl.smartattendance.repository.UserRepository;
 import com.dipl.smartattendance.service.UserService;
 import com.dipl.smartattendance.web.model.user.UpdateUserRequest;
 import com.dipl.smartattendance.web.model.user.UserRequest;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

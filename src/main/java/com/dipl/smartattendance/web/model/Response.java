@@ -30,20 +30,4 @@ public class Response<T> {
      * Map for errors
      */
     private Map<String, List<String>> errors;
-
-    /**
-     * Pagination
-     */
-    private Pagination pagination;
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Pagination{
-
-        private Integer page;
-        private Long size;
-        private Long totalItems;
-    }
 }

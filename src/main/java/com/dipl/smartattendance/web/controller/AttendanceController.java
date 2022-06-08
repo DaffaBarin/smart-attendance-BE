@@ -1,7 +1,6 @@
 package com.dipl.smartattendance.web.controller;
 
 import com.dipl.smartattendance.entity.Attendance;
-import com.dipl.smartattendance.helper.JwtHelper;
 import com.dipl.smartattendance.service.AttendanceService;
 import com.dipl.smartattendance.web.model.Response;
 import com.dipl.smartattendance.web.model.attendance.AttendancePercentageResponse;
@@ -44,8 +43,6 @@ public class AttendanceController {
     @Autowired
     AttendanceService attendanceService;
 
-    @Autowired
-    JwtHelper jwtHelper;
 
     @ApiOperation("Create new attendance")
     @PostMapping(
@@ -165,12 +162,5 @@ public class AttendanceController {
         return attendanceResponses;
     }
 
-    private Response.Pagination toResponse(Page<?> page) {
-        return Response.Pagination.builder()
-                .page(page.getNumber())
-                .size((long) page.getSize())
-                .totalItems(page.getTotalElements())
-                .build();
-    }
 
 }

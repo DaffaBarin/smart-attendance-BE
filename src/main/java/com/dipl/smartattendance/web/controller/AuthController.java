@@ -18,9 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -50,16 +47,11 @@ public class AuthController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<UserAuthResponse> userLogin(@RequestBody UserAuthRequest request){
-//        Authentication authentication = authManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getNip(), request.getPassword())
-//        );
+    public Response userLogin(@RequestBody UserAuthRequest request){
         try{
-//            User user = (User) authentication.getPrincipal();
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             User user = userRepo.findByNip(request.getNip());
-            if (!passwordEncoder.matches(request.getPassword(),user.getPassword())) throw new BadCredentialsException("Username or Password Wrong");
+            if (!passwordEncoder.matches(request.getPassword(),user.getPassword())) throw new Exception("Username or Password Wrong");
             String accessToken = jwtUtil.generateAccessToken(user);
             UserAuthResponse response = UserAuthResponse.builder().nip(user.getNip()).accessToken(accessToken).build();
             return Response.<UserAuthResponse>builder()
@@ -67,10 +59,9 @@ public class AuthController {
                     .data(response)
                     .build();
         } catch (Exception ex){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//            return Response.<UserAuthResponse>builder()
-//                    .status(HttpStatus.UNAUTHORIZED.value())
-//                    .build();
+            return Response.builder()
+                    .status(HttpStatus.UNAUTHORIZED.value())
+                    .build();
         }
     }
 
@@ -80,14 +71,8 @@ public class AuthController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response<AdminAuthResponse> adminLogin(@RequestBody AdminAuthRequest request){
-//        Authentication authentication = authManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getUsername(), request.getPassword())
-//        );
+    public Response adminLogin(@RequestBody AdminAuthRequest request){
         try{
-//
-//            Admin admin = (Admin) authentication.getPrincipal();
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             Admin admin = adminRepo.findByUsername(request.getUsername());
             if (!passwordEncoder.matches(request.getPassword(),admin.getPassword())) throw new BadCredentialsException("Username or Password Wrong");
@@ -98,10 +83,9 @@ public class AuthController {
                     .data(response)
                     .build();
         } catch (Exception ex){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//            return Response.<AdminAuthResponse>builder()
-//                    .status(HttpStatus.UNAUTHORIZED.value())
-//                    .build();
+            return Response.builder()
+                    .status(HttpStatus.UNAUTHORIZED.value())
+                    .build();
         }
     }
 }
