@@ -8,7 +8,13 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.Collection;
 import java.util.Set;
 
@@ -28,7 +34,7 @@ public class User implements UserDetails {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     String id;
 
-    @Column(name = "nip", nullable = false,unique = true)
+    @Column(name = "nip", nullable = false, unique = true)
     String nip;
 
     @Column(name = "password", nullable = false)
@@ -37,7 +43,7 @@ public class User implements UserDetails {
     @Column(name = "full_name", nullable = false)
     String fullName;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Attendance> attendances;
 
     @Override

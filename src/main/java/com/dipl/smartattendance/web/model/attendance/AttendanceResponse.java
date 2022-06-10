@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
@@ -18,11 +20,13 @@ import java.time.LocalTime;
  */
 public class AttendanceResponse {
     String id;
-    String longitude;
-    String latitude;
+    Double longitude;
+    Double latitude;
+    LocalDate date;
     LocalTime time;
     String attendanceStatus;
     String note;
-    User user;
-    Schedule schedule;
+    String userNip;
+    String userId;
+    String scheduleId;
 }

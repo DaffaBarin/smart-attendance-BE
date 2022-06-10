@@ -1,24 +1,35 @@
 package com.dipl.smartattendance.service.impl;
 
 import com.dipl.smartattendance.entity.Schedule;
+import com.dipl.smartattendance.helper.LocationHelper;
 import com.dipl.smartattendance.repository.ScheduleRepository;
 import com.dipl.smartattendance.service.ScheduleService;
 import com.dipl.smartattendance.web.model.schedule.ScheduleRequest;
 import com.dipl.smartattendance.web.model.schedule.UpdateScheduleRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+
+    private final LocationHelper locationHelper;
+
+    @Autowired
+    private HttpServletRequest servletRequest;
 
     @Override
     public Schedule saveSchedule(ScheduleRequest request) {
@@ -51,6 +62,18 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule schedule = scheduleRepository.getById(id);
         BeanUtils.copyProperties(request,schedule);
         return scheduleRepository.save(schedule);
+    }
+
+    @Override
+    public Schedule getTodaySchedule() {
+        return scheduleRepository.getScheduleByDateEquals(LocalDate.now(ZoneId.ofOffset("GMT", ZoneOffset.ofHours(7))));
+    }
+
+    @Override
+    public Boolean getUserInArea() throws IOException {
+        Schedule schedule = scheduleRepository.getScheduleByDateEquals(LocalDate.now(ZoneId.ofOffset("GMT", ZoneOffset.ofHours(7))));
+        Map<String,Double> location = locationHelper.getLocationByIp(servletRequest);
+        return locationHelper.insideRadius(location,schedule);
     }
 
 

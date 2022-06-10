@@ -12,8 +12,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleResponse {
+
     private String id;
-    private String longitude;
-    private String latitude;
+
+    private Double longitude;
+
+    private Double latitude;
+
     private LocalDate date;
 }

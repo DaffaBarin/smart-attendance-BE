@@ -3,12 +3,11 @@ package com.dipl.smartattendance.service.impl;
 import com.dipl.smartattendance.entity.User;
 import com.dipl.smartattendance.repository.UserRepository;
 import com.dipl.smartattendance.service.UserService;
+import com.dipl.smartattendance.web.model.user.UpdateUserRequest;
 import com.dipl.smartattendance.web.model.user.UserRequest;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,5 +52,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(String nip) {
         return userRepository.findByNip(nip);
+    }
+
+    @Override
+    public User updateUser(UpdateUserRequest request) {
+        User user = userRepository.getById(request.getId());
+        BeanUtils.copyProperties(request,user);
+        System.out.println(request.getNip());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
     }
 }

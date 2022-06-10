@@ -17,11 +17,6 @@ import java.time.LocalTime;
  * Request object for attendance creation
  */
 public class CreateAttendanceRequest {
-    String id;
-    String longitude;
-    String latitude;
-    LocalTime time;
-    String attendanceStatus;
     String note;
     String userId;
     String scheduleId;
