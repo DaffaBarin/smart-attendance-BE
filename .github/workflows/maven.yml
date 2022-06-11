@@ -1,4 +1,4 @@
-name: Demo SpringBoot CI/CD
+name: Smart-Attendance CI/CD
 
 on: [push]
 
