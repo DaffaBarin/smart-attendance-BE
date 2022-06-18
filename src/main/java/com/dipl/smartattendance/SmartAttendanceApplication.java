@@ -9,7 +9,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SmartAttendanceApplication {
 
 	public static void main(String[] args) {
-		System.out.println("Asiap");
 		SpringApplication.run(SmartAttendanceApplication.class, args);
 	}
 

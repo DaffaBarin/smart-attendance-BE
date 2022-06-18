@@ -20,7 +20,7 @@ public class LocationHelper {
     public String getAttendanceStatusByTimeAndLocation(LocalTime time, Map<String,Double> location, Schedule schedule) {
         Double distance = calculateDistanceInMeters(location.get("latitude"),location.get("longitude"),schedule.getLatitude(),schedule.getLongitude());
         String status;
-        if (time.isBefore(LocalTime.parse("23:59"))) {
+        if (time.isBefore(LocalTime.parse("09:05"))) {
             status = "Hadir";
             if (distance < 50000){
                 status = status + " Dalam Radius Kantor";
